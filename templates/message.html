@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block title %}Invalid Details | EduPath{% endblock %}
+
+{% block content %}
+
+<section class="result-section">
+
+    <h1>Invalid Student Details</h1>
+
+    <div class="result-card fail-card">
+        <p>{{ message }}</p>
+    </div>
+
+    <a href="{{ url_for('home') }}" class="back-btn">
+        Go Back to Home
+    </a>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,152 @@
+
+{% extends "base.html" %}
+
+{% block title %}Model Accuracy | EduPath{% endblock %}
+
+{% block content %}
+
+<section class="accuracy-section">
+
+    <div class="page-heading">
+        <h1>Model Performance</h1>
+        <p>Evaluation results of the Decision Tree Classifier.</p>
+    </div>
+
+    {% if feedback_saved %}
+        <p class="success-message">
+            The confusion matrix has been updated with the confirmed result.
+        </p>
+    {% endif %}
+
+    <!-- Performance Cards -->
+    <div class="accuracy-grid">
+
+        <div class="metric-card">
+            <h3>Accuracy</h3>
+            <h2>{{ metrics.accuracy }}%</h2>
+        </div>
+
+        <div class="metric-card">
+            <h3>Precision</h3>
+            <h2>{{ metrics.precision }}%</h2>
+        </div>
+
+        <div class="metric-card">
+            <h3>Recall</h3>
+            <h2>{{ metrics.recall }}%</h2>
+        </div>
+
+        <div class="metric-card">
+            <h3>F1 Score</h3>
+            <h2>{{ metrics.f1_score }}%</h2>
+        </div>
+
+    </div>
+
+    <!-- Confusion Matrix -->
+    <div class="matrix-section">
+
+        <div class="matrix-heading">
+            <h2>Confusion Matrix</h2>
+
+            <p>
+                Comparison between actual student results
+                and the model's predicted results.
+            </p>
+        </div>
+
+        <div class="matrix-card">
+
+            <div class="matrix-subtitle">
+                Predicted Result
+            </div>
+
+            <!-- Only Two Prediction Columns -->
+            <div class="matrix-grid matrix-header">
+
+                <div>FAIL</div>
+                <div>PASS</div>
+
+            </div>
+
+            <!-- Actual FAIL -->
+            <div class="actual-label">
+                Actual FAIL
+            </div>
+
+            <div class="matrix-grid">
+
+                <div class="matrix-value fail-value">
+                    {{ metrics.confusion_matrix[0][0] }}
+                    <span>Correct FAIL</span>
+                </div>
+
+                <div class="matrix-value pass-value">
+                    {{ metrics.confusion_matrix[0][1] }}
+                    <span>Incorrect PASS</span>
+                </div>
+
+            </div>
+
+            <!-- Actual PASS -->
+            <div class="actual-label">
+                Actual PASS
+            </div>
+
+            <div class="matrix-grid">
+
+                <div class="matrix-value fail-value">
+                    {{ metrics.confusion_matrix[1][0] }}
+                    <span>Incorrect FAIL</span>
+                </div>
+
+                <div class="matrix-value pass-value">
+                    {{ metrics.confusion_matrix[1][1] }}
+                    <span>Correct PASS</span>
+                </div>
+
+            </div>
+
+            <div class="matrix-legend">
+                <span class="legend-item">
+                    <span class="legend-dot correct-dot"></span>
+                    Correct Predictions
+                </span>
+
+                <span class="legend-item">
+                    <span class="legend-dot wrong-dot"></span>
+                    Incorrect Predictions
+                </span>
+            </div>
+
+        </div>
+
+        <p class="matrix-info">
+            Diagonal values represent correct predictions.
+            Other values represent incorrect predictions.
+        </p>
+
+        <p class="matrix-count">
+            {% if metrics.feedback_count == 1 %}
+                Includes the original model evaluation and
+                1 confirmed student result.
+            {% elif metrics.feedback_count > 1 %}
+                Includes the original model evaluation and
+                {{ metrics.feedback_count }} confirmed student results.
+            {% else %}
+                Includes the original model evaluation.
+                No new student results have been confirmed yet.
+            {% endif %}
+        </p>
+
+    </div>
+
+    <!-- Model Information -->
+    <div class="model-information">
+        <span>Machine Learning Algorithm</span>
+        <h3>{{ metrics.model_name }}</h3>
+    </div>
+
+</section>
+
+{% endblock %}

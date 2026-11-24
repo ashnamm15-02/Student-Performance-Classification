@@ -1,0 +1,17 @@
+{
+    "model_name": "Decision Tree Classifier",
+    "accuracy": 82.3,
+    "precision": 96.0,
+    "recall": 82.3,
+    "f1_score": 87.39,
+    "confusion_matrix": [
+        [
+            72,
+            10
+        ],
+        [
+            344,
+            1574
+        ]
+    ]
+}

@@ -1,0 +1,82 @@
+
+{% extends "base.html" %}
+
+{% block title %}Home | EduPath{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>EduPath: Student Success Predictor</h1>
+
+    <p>
+        Predict student academic performance using
+        Machine Learning.
+    </p>
+</section>
+
+<section class="form-section">
+
+    <h2>Enter Student Details</h2>
+
+    <p class="form-description">
+        Fill in the details below to predict the student's result.
+    </p>
+
+    <form action="{{ url_for('predict') }}" method="POST">
+
+        <div class="form-grid">
+
+            {% for field in form_fields %}
+
+            <div class="form-group">
+
+                <label for="{{ field.name }}">
+                    {{ field.label or field.name.replace('_', ' ').title() }}
+                </label>
+
+                {% if field.type == "select" %}
+
+                    <select
+                        name="{{ field.name }}"
+                        id="{{ field.name }}"
+                        required
+                    >
+                        <option value="">Select an option</option>
+
+                        {% for option in field.options %}
+                            <option value="{{ option }}">
+                                {{ option }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+
+                {% else %}
+
+                    <input
+                        type="{{ field.type }}"
+                        name="{{ field.name }}"
+                        id="{{ field.name }}"
+                        {% if field.type == "number" %}step="any"{% endif %}
+                        {% if field.name == "student_name" %}maxlength="100"{% endif %}
+                        placeholder="Enter {{ field.name.replace('_', ' ') }}"
+                        required
+                    >
+
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <button type="submit" class="predict-btn">
+            Predict Result
+        </button>
+
+    </form>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+
+{% extends "base.html" %}
+
+{% block title %}Prediction Result | EduPath{% endblock %}
+
+{% block content %}
+
+<section class="result-section">
+
+    <h1>Prediction Result</h1>
+
+    <p class="result-description">
+        The Machine Learning model has analysed the details for {{ student_name }}.
+    </p>
+
+    {% if prediction == "PASS" %}
+
+        <div class="result-card pass-card">
+            <h2>PASS</h2>
+            <p>The predicted result is PASS.</p>
+        </div>
+
+    {% else %}
+
+        <div class="result-card fail-card">
+            <h2>FAIL</h2>
+            <p>The predicted result is FAIL.</p>
+        </div>
+
+    {% endif %}
+
+    <form action="{{ url_for('record_actual_result') }}" method="POST">
+        <input type="hidden" name="prediction_id" value="{{ prediction_id }}">
+
+        <div class="form-group">
+            <label for="actual_result">
+                What was {{ student_name }}'s actual result?
+            </label>
+            <select name="actual_result" id="actual_result" required>
+                <option value="">Select the actual result</option>
+                <option value="FAIL">FAIL</option>
+                <option value="PASS">PASS</option>
+            </select>
+        </div>
+
+        <button type="submit" class="predict-btn">
+            Update Confusion Matrix
+        </button>
+    </form>
+
+    <a href="{{ url_for('home') }}" class="back-btn">
+        Predict Again
+    </a>
+
+</section>
+
+{% endblock %}
